@@ -22,8 +22,8 @@ return {
         },
         -- ensure these language parsers are installed
         ensure_installed = {
-            "go",
-            "templ",
+          "go",
+          "templ",
           "json",
           "javascript",
           "typescript",
