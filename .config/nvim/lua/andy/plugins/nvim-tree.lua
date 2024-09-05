@@ -4,7 +4,9 @@ return {
     config = function()
         local nvimtree = require("nvim-tree")
         nvimtree.setup({
-            filters = { dotfiles = false },
+            filters = {
+                dotfiles = false,
+            },
             disable_netrw = true,
             hijack_cursor = true,
             sync_root_with_cwd = true,

@@ -17,9 +17,13 @@ return {
                 mappings = {
                     i = {
                         ["<C-k>"] = actions.move_selection_previous, -- move to prev result
-                        ["<C-j>"] = actions.move_selection_next, -- move to next result
+                        ["<C-j>"] = actions.move_selection_next,     -- move to next result
                     },
                 },
+                find_command = { "fd", "--type", "f", "--hidden", "--follow", "--exclude", ".git" },
+                file_ignore_patterns = {}, -- Ensure no patterns are excluding files
+                no_ignore = true,          -- Disable ignoring files specified in .gitignore or other ignore files
+                follow = true,             -- Follow symlinks
             },
         })
 
@@ -27,6 +31,13 @@ return {
 
         -- set keymaps
         local keymap = vim.keymap
-        keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Fuzzy find files in cwd" })
+
+        keymap.set("n", "<leader>ff", function()
+            require("telescope.builtin").find_files({
+                hidden = true,
+                no_ignore = true,
+                file_ignore_patterns = { ".git/" }, -- Exclude the .git directory
+            })
+        end, { desc = "Fuzzy find files in cwd" })
     end,
 }
