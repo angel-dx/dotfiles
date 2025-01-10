@@ -1,2 +1,1 @@
-require("andy.core")
-require("andy.lazy")
+require("andy")
