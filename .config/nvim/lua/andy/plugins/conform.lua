@@ -2,6 +2,40 @@ return {
 	"stevearc/conform.nvim",
 	event = { "BufWritePre" },
 	cmd = { "ConformInfo" },
+	keys = {
+		{
+			-- Format in visual mode using space+fm
+			"<space>fm",
+			function()
+				local start_row = vim.fn.line("'<")
+				local end_row = vim.fn.line("'>")
+				require("conform").format({
+					range = {
+						start = { start_row, 0 },
+						["end"] = { end_row, 999999 },
+					},
+				})
+			end,
+			mode = { "x" },
+			desc = "Format selection",
+		},
+		{
+			-- Format in visual mode using gq
+			"gq",
+			function()
+				local start_row = vim.fn.line("'<")
+				local end_row = vim.fn.line("'>")
+				require("conform").format({
+					range = {
+						start = { start_row, 0 },
+						["end"] = { end_row, 999999 },
+					},
+				})
+			end,
+			mode = { "x" },
+			desc = "Format selection (gq)",
+		},
+	},
 	opts = {
 		formatters_by_ft = {
 			lua = { "stylua" },
@@ -33,8 +67,6 @@ return {
 	config = function(_, opts)
 		local conform = require("conform")
 		conform.setup(opts)
-
-		-- Add explicit auto-command for formatting on save
 		vim.api.nvim_create_autocmd("BufWritePre", {
 			callback = function()
 				conform.format({

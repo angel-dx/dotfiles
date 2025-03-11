@@ -21,8 +21,3 @@ vim.api.nvim_set_keymap('v', '<Up>', '<Nop>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('v', '<Down>', '<Nop>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('v', '<Left>', '<Nop>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('v', '<Right>', '<Nop>', { noremap = true, silent = true })
-
-vim.keymap.set("n", "<leader>ff", ":Telescope find_files<CR>", { desc = "Find files" })
-vim.keymap.set("n", "<leader>fg", ":Telescope live_grep<CR>", { desc = "Live grep" })
-vim.keymap.set("n", "<leader>fb", ":Telescope buffers<CR>", { desc = "Find buffers" })
-vim.keymap.set("n", "<leader>fh", ":Telescope help_tags<CR>", { desc = "Find help tags" })
