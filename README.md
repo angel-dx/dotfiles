@@ -65,10 +65,8 @@ Here are some screenshots showcasing my setup:
 
 ### Neovim in Action
 Here are some screenshots showcasing my setup:
-
-### Neovim in Action
-![Neovim](./docs/ss/neovim.jpeg)
-![Neovim](./docs/ss/neovim-source.jpeg)
+![Neovim](./docs/ss/neovim.png)
+![Neovim](./docs/ss/neovim_source.png)
 
 ## 🔧 Dependencies
 
