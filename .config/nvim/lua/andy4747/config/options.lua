@@ -18,6 +18,8 @@ opt.smartindent = true     -- Insert indents automatically
 opt.breakindent = true     -- Wrapped lines respect indentation
 opt.ignorecase = true      -- Ignore case when searching
 opt.smartcase = true       -- Don't ignore case with capitals
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 
 
 -- Buffers
