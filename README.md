@@ -48,20 +48,27 @@ git clone https://github.com/andy4747/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 ```
 
-Then manually symlink the files:
+Then manually copy the files:
 
 ```bash
-ln -s ~/dotfiles/zshrc ~/.zshrc
-ln -s ~/dotfiles/tmux.conf ~/.tmux.conf
-ln -s ~/dotfiles/nvim ~/.config/nvim
-ln -s ~/dotfiles/kitty ~/.config/kitty
+cp ~/dotfiles/zshrc ~/.zshrc
+cp ~/dotfiles/tmux.conf ~/.tmux.conf
+cp -r ~/dotfiles/nvim ~/.config/nvim
+cp -r ~/dotfiles/kitty ~/.config/kitty
 ```
 
-> Back up any existing configs before linking.
+> Back up any existing configs before copying.
 
-<!-- ## 📸 Screenshots
+## 📸 Screenshots
 
-_(Optional: Add screenshots of your terminal, Neovim in action, etc.)_ -->
+Here are some screenshots showcasing my setup:
+
+### Neovim in Action
+Here are some screenshots showcasing my setup:
+
+### Neovim in Action
+![Neovim](./docs/ss/neovim.jpeg)
+![Neovim](./docs/ss/neovim-source.jpeg)
 
 ## 🔧 Dependencies
 
@@ -79,10 +86,10 @@ Mandatory Dependencies:
 Seth Phaeno](https://www.youtube.com/@sethyedw), [Josean Martinez](https://www.youtube.com/@joseanmartinez), [Dreams of Code](https://www.youtube.com/@dreamsofcode) and the dotfiles community.
 - Uses various open-source plugins and themes — check individual config folders for details.
 
-<!-- ## 📝 License
+## 📝 License
 
-MIT — feel free to fork and adapt. -->
+MIT — feel free to fork and adapt.
 
 ---
 
-Made with ❤️ by [andy4747](https://github.com/andy4747)
+Made with ❤️ by [andy4747](https://codeangel.tech)

@@ -62,6 +62,8 @@ return {
 					project = {
 						base_dirs = {
 							{ path = "~/Desktop/andy4747", max_depth = 3 },
+							-- for zoro macbook
+							-- { path = "~/Documents/andy4747", max_depth = 3 },
 							{ path = "~/.config", max_depth = 2 },
 						},
 						hidden_files = true,
