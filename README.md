@@ -48,7 +48,7 @@ git clone https://github.com/andy4747/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 ```
 
-Then manually symlink the files or run an install script if included:
+Then manually symlink the files:
 
 ```bash
 ln -s ~/dotfiles/zshrc ~/.zshrc
@@ -70,7 +70,7 @@ Mandatory Dependencies:
 - Neovim 0.10+
 - Tmux 3.2+
 - Kitty terminal
-- Zsh + a plugin manager (e.g. [zinit](https://github.com/zdharma-continuum/zinit), [oh-my-zsh](https://ohmyz.sh/))
+- Zsh + a plugin manager ([oh-my-zsh](https://ohmyz.sh/))
 - Fonts (FiraCode Nerd Font)
 
 ## 🙌 Credits
