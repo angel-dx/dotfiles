@@ -39,3 +39,25 @@ mouse-hide-while-typing = true
 
 # Neovim Enhancements
 defer-drawing = true           # Improves performance with frequent redraws
+
+
+
+
+/home/andy/.config/ghostty/config:2:shell: unknown field
+/home/andy/.config/ghostty/config:6:renderer: unknown field
+/home/andy/.config/ghostty/config:7:optimize-rendering: unknown field
+/home/andy/.config/ghostty/config:8:gpu-synchronize: unknown field
+/home/andy/.config/ghostty/config:12:font-size: invalid value "14.0                # Comfortable size for coding"
+/home/andy/.config/ghostty/config:13:font-bold: unknown field
+/home/andy/.config/ghostty/config:14:font-antialias: unknown field
+/home/andy/.config/ghostty/config:15:font-ligatures: unknown field
+/home/andy/.config/ghostty/config:18:color-scheme: unknown field
+/home/andy/.config/ghostty/config:19:background-opacity: invalid value "0.95      # Slight transparency (optional)"
+/home/andy/.config/ghostty/config:22:padding-x: unknown field
+/home/andy/.config/ghostty/config:23:padding-y: unknown field
+/home/andy/.config/ghostty/config:26:scrollback-size: unknown field
+/home/andy/.config/ghostty/config:27:scrollback-persist: unknown field
+/home/andy/.config/ghostty/config:30:cursor-shape: unknown field
+/home/andy/.config/ghostty/config:31:cursor-blink: unknown field
+/home/andy/.config/ghostty/config:35:keymap: unknown field
+/home/andy/.config/ghostty/config:41:defer-drawing: unknown field
