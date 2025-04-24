@@ -1,63 +1,9 @@
 # General
-shell = /bin/zsh                # or /bin/bash or your preferred shell
 working-directory = ~/          # Start in home directory
-
-# Performance & Rendering
-renderer = opengl               # Use GPU for rendering (default and fastest)
-optimize-rendering = true       # Ghostty-specific rendering optimization
-gpu-synchronize = false         # Disable frame sync to minimize latency
-
-# Font
-font-family = JetBrainsMonoNL   # Replace with your favorite Nerd Font
-font-size = 14.0                # Comfortable size for coding
-font-bold = true
-font-antialias = true
-font-ligatures = true           # Great with Neovim LSPs, treesitter, etc.
-
-# Colors & Theme
-color-scheme = "tokyo-night"   # Built-in theme (change to your liking)
-background-opacity = 0.95      # Slight transparency (optional)
-
-# Padding
-padding-x = 10
-padding-y = 10
-
-# Scrollback
-scrollback-size = 100000       # Big scrollback for debugging, logs, etc.
-scrollback-persist = true
-
-# Cursor
-cursor-shape = block
-cursor-blink = false           # No distraction
-cursor-color = #ffcc00
-
-# Keybindings
-keymap = default               # Stick with defaults or customize if needed
-
+#window-decoration=server
+gtk-titlebar=false
+keybind=global:ctrl+f=toggle_fullscreen
 # Mouse
 mouse-hide-while-typing = true
-
-# Neovim Enhancements
-defer-drawing = true           # Improves performance with frequent redraws
-
-
-
-
-/home/andy/.config/ghostty/config:2:shell: unknown field
-/home/andy/.config/ghostty/config:6:renderer: unknown field
-/home/andy/.config/ghostty/config:7:optimize-rendering: unknown field
-/home/andy/.config/ghostty/config:8:gpu-synchronize: unknown field
-/home/andy/.config/ghostty/config:12:font-size: invalid value "14.0                # Comfortable size for coding"
-/home/andy/.config/ghostty/config:13:font-bold: unknown field
-/home/andy/.config/ghostty/config:14:font-antialias: unknown field
-/home/andy/.config/ghostty/config:15:font-ligatures: unknown field
-/home/andy/.config/ghostty/config:18:color-scheme: unknown field
-/home/andy/.config/ghostty/config:19:background-opacity: invalid value "0.95      # Slight transparency (optional)"
-/home/andy/.config/ghostty/config:22:padding-x: unknown field
-/home/andy/.config/ghostty/config:23:padding-y: unknown field
-/home/andy/.config/ghostty/config:26:scrollback-size: unknown field
-/home/andy/.config/ghostty/config:27:scrollback-persist: unknown field
-/home/andy/.config/ghostty/config:30:cursor-shape: unknown field
-/home/andy/.config/ghostty/config:31:cursor-blink: unknown field
-/home/andy/.config/ghostty/config:35:keymap: unknown field
-/home/andy/.config/ghostty/config:41:defer-drawing: unknown field
+#font
+font-size=14
