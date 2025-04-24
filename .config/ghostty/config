@@ -1,1 +1,58 @@
+# Font settings
+    font-family = Fira Code
+    font-size = 13
+    font-ligature = true
+    font-style = Regular
+    font-weight = 400
+    adjust-cell-width = -5%  # Tighten spacing for dense code
 
+    # Performance optimizations
+    gpu = true              # Enable GPU acceleration (OpenGL on Linux)
+    vsync = true           # Smooth scrolling, no tearing
+    render-thread = 4      # High parallelism for heavy rendering
+    buffer-count = 16      # Large buffer for large files
+    frame-limit = 144      # Cap at 144 FPS for high-refresh-rate displays
+    low-memory = false     # Prioritize performance over memory
+
+    # Theme (optimized for Neovim, low contrast for readability)
+    theme = tokyonight-storm
+    background = #1a1b26
+    foreground = #c0caf5
+    minimum-contrast = 4.5 # Ensure readable text in Neovim
+
+    # Neovim-specific features
+    true-color = true      # 24-bit color for Neovim themes
+    kitty-graphics = true  # Image previews (e.g., render-markdown.nvim)
+    mouse = true           # Mouse support for Neovim
+    scrollback-lines = 20000 # Large scrollback for logs
+    synchronize = true     # Prevent tearing in Neovim rendering
+
+    # Tabs and splits for project management
+    tab = true
+    split = true
+    tab-bar = top
+    tab-width = wide
+    tab-bar-style = minimal
+
+    # Hyprland integration
+    window-decoration = false # Let Hyprland manage borders
+    window-opacity = 0.92     # Slight transparency
+    window-padding = 4        # Minimal padding for clean look
+
+    # Cursor optimizations
+    cursor-style = block
+    cursor-style-blink = false
+    cursor-hide-while-typing = true # Reduce visual noise
+
+    # Keybindings for productivity
+    keybind = ctrl+shift+t=new_tab
+    keybind = ctrl+shift+w=close_tab
+    keybind = ctrl+shift+n=new_window
+    keybind = ctrl+shift+v=paste
+    keybind = alt+shift+r=reload_config
+    keybind = ctrl+shift+left=prev_tab
+    keybind = ctrl+shift+right=next_tab
+
+    # Shell integration
+    shell-integration = zsh
+    shell-integration-features = cursor,prompt,osc7
