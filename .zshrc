@@ -1,3 +1,23 @@
+#history
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_FIND_NO_DUPS
+setopt SHARE_HISTORY
+
+#autosuggestions config
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
+
+#golang path
+export GOAPTH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+
+#editor
+export EDITOR='nvim'
+export VISUAL='nvim'
+export PAGER='less'
+
 nvim-clean() {
   echo "Cleaning Neovim and Lazy.nvim caches and packages..."
 
