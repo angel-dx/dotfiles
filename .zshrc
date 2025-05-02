@@ -1,4 +1,15 @@
-#history
+# Set Oh My Zsh installation path
+export ZSH="$HOME/.oh-my-zsh"
+export ZSH_CUSTOM="$ZSH/custom"  # Ensure custom plugins are placed here
+
+# Theme and plugin settings
+ZSH_THEME="robbyrussell"
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
+
+# Source Oh My Zsh
+source $ZSH/oh-my-zsh.sh
+
+# History settings
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
@@ -6,43 +17,117 @@ setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_FIND_NO_DUPS
 setopt SHARE_HISTORY
 
-#autosuggestions config
+# Autosuggestions config
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
 
-#golang path
-export GOAPTH=$HOME/go
+# change autosuggestion-accept to space key
+bindkey '^ ' autosuggest-accept
+
+# Golang path settings
+export PATH=$PATH:/usr/local/go/bin
+export GOPATH=$HOME/go  # Fixed typo from GOAPTH to GOPATH
 export PATH=$PATH:$GOPATH/bin
 
-#editor
+#zsh path
+export PATH="$HOME/zig/zig-linux-x86_64-0.14.0:$PATH"
+
+# Editor settings
 export EDITOR='nvim'
 export VISUAL='nvim'
 export PAGER='less'
+# Aliases
+# Npm Aliases
+alias nrd="npm run dev"
+alias nrb="npm run build"
+#docker aliases
+alias dcu="docker compose up -d"
+alias dcd="docker compose down"
 
+# Neovim cleanup function
 nvim-clean() {
   echo "Cleaning Neovim and Lazy.nvim caches and packages..."
-
   # Define Neovim and Lazy.nvim directories
   NVIM_CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/nvim"
   NVIM_STATE="${XDG_STATE_HOME:-$HOME/.local/state}/nvim"
   NVIM_DATA="${XDG_DATA_HOME:-$HOME/.local/share}/nvim"
-
   # Lazy.nvim usually stores plugins here
   LAZY_DIR="$NVIM_DATA/lazy"
-
   # Remove caches
   echo "Removing Neovim cache: $NVIM_CACHE"
   rm -rf "$NVIM_CACHE"
-
   # Remove Lazy.nvim installed plugins
   echo "Removing Lazy.nvim plugins: $LAZY_DIR"
   rm -rf "$LAZY_DIR"
-
-  # Optionally remove Neovim state and data (uncomment if needed)
-  # echo "Removing Neovim state: $NVIM_STATE"
-  # rm -rf "$NVIM_STATE"
-
+  # Optionally remove Neovim state and data uncomment
+  echo "Removing Neovim state: $NVIM_STATE"
+  rm -rf "$NVIM_STATE"
   # echo "Removing Neovim data (excluding plugins): $NVIM_DATA"
   # rm -rf "$NVIM_DATA"
-
   echo "Cleanup complete ✅"
+}
+
+#open neovim config in nvim
+ncf() {
+  echo "Opening Neovim Config"
+  cd ~/.config/nvim/
+  nvim
+}
+
+rmvol(){
+  echo "Listing all the docker volumes.."
+  #store the volumes to an array
+  volumes=($(docker volume ls --format '{{.Name}}'))
+
+  #check for no volumes
+  if [ ${#volumes[@]} -eq 0 ]; then
+    echo "No Volumes Found"
+    return
+  fi
+
+  #show volumes list with index
+  for i in $(seq 1 ${#volumes[@]}); do
+    echo "$i) ${volumes[$((i))]}"
+  done
+
+  # Prompt user for input
+  echo ""
+  echo "Enter the number of the volume to delete, or 'q' to quit:"
+  read choice
+
+  # Check if user wants to quit
+  if [ "$choice" = "q" ] || [ "$choice" = "Q" ]; then
+    echo "Operation cancelled."
+    return
+  fi
+
+  # Validate input is a number
+  if ! [[ "$choice" =~ ^[0-9]+$ ]]; then
+    echo "Invalid input. Please enter a number."
+    return
+  fi
+
+  # Validate the choice is within range
+  if [ "$choice" -lt 1 ] || [ "$choice" -gt ${#volumes[@]} ]; then
+    echo "Invalid selection. Number must be between 1 and ${#volumes[@]}."
+    return
+  fi
+
+  # retrieve the name of volume to delete from index
+  volume_to_remove="${volumes[$((choice))]}"
+
+  # Confirm before deletion
+  echo "Are you sure you want to delete volume '$volume_to_remove'? (y/n)"
+  read confirm
+
+  if [ "$confirm" = "y" ] || [ "$confirm" = "Y" ]; then
+    echo "removing volume: $volume_to_remove"
+    docker volume rm "$volume_to_remove"
+    if [ $? -eq 0 ]; then
+      echo "volume removed successfully"
+    else
+      echo "failed to remove volume"
+    fi
+  else
+    echo "operation failed"
+  fi
 }
