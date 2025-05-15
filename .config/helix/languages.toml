@@ -1,0 +1,107 @@
+# JavaScript and TypeScript
+[[language]]
+name = "javascript"
+scope = "source.js"
+file-types = ["js", "jsx", "mjs", "cjs"]
+roots = ["package.json"]
+auto-format = true
+language-servers = ["typescript-language-server"]
+indent = { tab-width = 2, unit = "  " }
+formatter = { command = "prettier", args = ["--parser", "babel"] }
+
+[[language]]
+name = "typescript"
+scope = "source.ts"
+file-types = ["ts", "tsx"]
+roots = ["package.json", "tsconfig.json"]
+auto-format = true
+language-servers = ["typescript-language-server"]
+indent = { tab-width = 2, unit = "  " }
+formatter = { command = "prettier", args = ["--parser", "typescript"] }
+
+# TypeScript React (inherits TypeScript settings)
+[[language]]
+name = "tsx"
+scope = "source.tsx"
+file-types = ["tsx"]
+roots = ["package.json", "tsconfig.json"]
+auto-format = true
+language-servers = ["typescript-language-server"]
+indent = { tab-width = 2, unit = "  " }
+formatter = { command = "prettier", args = ["--parser", "typescript"] }
+
+# Go
+[[language]]
+name = "go"
+scope = "source.go"
+file-types = ["go"]
+roots = ["go.mod"]
+auto-format = true
+language-servers = ["gopls"]
+indent = { tab-width = 4, unit = "\t" }
+formatter = { command = "gofmt" }
+
+# C/C++
+[[language]]
+name = "c"
+scope = "source.c"
+file-types = ["c", "h"]
+roots = []
+auto-format = true
+language-servers = ["clangd"]
+indent = { tab-width = 2, unit = "  " }
+formatter = { command = "clang-format", args = ["-style=file"] }
+
+[[language]]
+name = "cpp"
+scope = "source.cpp"
+file-types = ["cpp", "cc", "cxx", "hpp", "hxx"]
+roots = []
+auto-format = true
+language-servers = ["clangd"]
+indent = { tab-width = 2, unit = "  " }
+formatter = { command = "clang-format", args = ["-style=file"] }
+
+# JSON
+[[language]]
+name = "json"
+scope = "source.json"
+file-types = ["json"]
+roots = []
+auto-format = true
+language-servers = ["jsonls"]
+indent = { tab-width = 2, unit = "  " }
+formatter = { command = "prettier", args = ["--parser", "json"] }
+
+# Docker
+[[language]]
+name = "dockerfile"
+scope = "source.dockerfile"
+file-types = ["Dockerfile", "dockerfile"]
+roots = []
+auto-format = true
+language-servers = ["docker-langserver"]
+indent = { tab-width = 2, unit = "  " }
+formatter = { command = "dockfmt", args = ["fmt"] }
+
+# Docker Compose
+[[language]]
+name = "docker-compose"
+scope = "source.yaml.docker-compose"
+file-types = ["docker-compose.yml", "docker-compose.yaml"]
+roots = []
+auto-format = true
+language-servers = ["docker-compose-langserver"]
+indent = { tab-width = 2, unit = "  " }
+formatter = { command = "prettier", args = ["--parser", "yaml"] }
+
+# Terraform
+[[language]]
+name = "terraform"
+scope = "source.terraform"
+file-types = ["tf", "hcl"]
+roots = []
+auto-format = true
+language-servers = ["terraform-ls"]
+indent = { tab-width = 2, unit = "  " }
+formatter = { command = "terraform", args = ["fmt", "-"] }
