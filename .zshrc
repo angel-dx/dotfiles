@@ -28,6 +28,7 @@ export PATH=$PATH:/usr/local/go/bin
 export GOPATH=$HOME/go  # Fixed typo from GOAPTH to GOPATH
 export PATH=$PATH:$GOPATH/bin
 
+
 #zsh path
 export PATH="$HOME/zig/zig-linux-x86_64-0.14.0:$PATH"
 

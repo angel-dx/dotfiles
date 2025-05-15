@@ -1,18 +1,61 @@
-return {
-  "sainnhe/sonokai",
-  priority = 1000,
-  config = function()
-    -- Choose a style (optional — defaults to 'default' if unset)
-    vim.g.sonokai_style = "shusia" -- or 'andromeda', 'shusia', 'espresso' etc.
-
-    -- (Optional) Improve performance on some terminals
-    vim.g.sonokai_enable_italic = 1
-    vim.g.sonokai_disable_italic_comment = 0
-
-    -- Set colorscheme
-    vim.cmd.colorscheme "sonokai"
-  end,
-}
+-- return {
+-- 	"sainnhe/sonokai",
+-- 	priority = 1000,
+-- 	config = function()
+-- 		-- Choose a style (optional — defaults to 'default' if unset)
+-- 		vim.g.sonokai_style = "shusia" -- or 'andromeda', 'shusia', 'espresso' etc.
+--
+-- 		-- (Optional) Improve performance on some terminals
+-- 		vim.g.sonokai_enable_italic = 1
+-- 		vim.g.sonokai_disable_italic_comment = 0
+--
+-- 		-- Set colorscheme
+-- 		vim.cmd.colorscheme("sonokai")
+-- 	end,
+-- }
+-- return {
+-- 	"zenbones-theme/zenbones.nvim",
+-- 	-- Optionally install Lush. Allows for more configuration or extending the colorscheme
+-- 	-- If you don't want to install lush, make sure to set g:zenbones_compat = 1
+-- 	-- In Vim, compat mode is turned on as Lush only works in Neovim.
+-- 	dependencies = "rktjmp/lush.nvim",
+-- 	lazy = false,
+-- 	priority = 1000,
+-- 	-- you can set set configuration options here
+-- 	config = function()
+-- 		vim.g.zenbones_darken_comments = 45
+-- 		vim.cmd.colorscheme("kanagawabones")
+-- 	end,
+-- }
+-- return {
+-- 	"armannikoyan/rusty",
+-- 	lazy = false,
+-- 	priority = 1000,
+-- 	opts = {
+-- 		transparent = true,
+-- 		italic_comments = true,
+-- 		underline_current_line = true,
+-- 		colors = {
+-- 			foreground = "#c5c8c6",
+-- 			background = "#1d1f21",
+-- 			selection = "#373b41",
+-- 			line = "#282a2e",
+-- 			comment = "#969896",
+-- 			red = "#cc6666",
+-- 			orange = "#de935f",
+-- 			yellow = "#f0c674",
+-- 			green = "#b5bd68",
+-- 			aqua = "#8abeb7",
+-- 			blue = "#81a2be",
+-- 			purple = "#b294bb",
+-- 			window = "#4d5057",
+-- 		},
+-- 	},
+-- 	config = function(_, opts)
+-- 		require("rusty").setup(opts)
+-- 		vim.cmd("colorscheme rusty")
+-- 	end,
+-- }
 
 -- Rose Pine Colorscheme Configuration with Enhanced Syntax Highlighting
 -- A sophisticated theme with added color variance for code
@@ -383,82 +426,83 @@ return {
 --   end
 -- }
 
--- return {
---   "rebelot/kanagawa.nvim",
---   priority = 1000, -- Load this before other plugins
---   config = function()
---     require("kanagawa").setup({
---       -- Main configuration
---       compile = false,  -- Enable compiling the colorscheme
---       undercurl = true, -- Enable undercurls
---       commentStyle = { italic = true },
---       functionStyle = {},
---       keywordStyle = { italic = true },
---       statementStyle = {},
---       typeStyle = {},
---       transparent = false,    -- Do not set background color
---       dimInactive = false,    -- Dim inactive window `:h hl-NormalNC`
---       terminalColors = true,  -- Define vim.g.terminal_color_{0,17}
+return {
+	"rebelot/kanagawa.nvim",
+	priority = 1000, -- Load this before other plugins
+	config = function()
+		require("kanagawa").setup({
+			-- Main configuration
+			background = "dark",
+			compile = false, -- Enable compiling the colorscheme
+			undercurl = true, -- Enable undercurls
+			commentStyle = { italic = true },
+			functionStyle = {},
+			keywordStyle = { italic = true },
+			statementStyle = {},
+			typeStyle = {},
+			transparent = false, -- Do not set background color
+			dimInactive = false, -- Dim inactive window `:h hl-NormalNC`
+			terminalColors = true, -- Define vim.g.terminal_color_{0,17}
+			-- Palette overrides for different variants
+			colors = {
+				theme = {
+					all = {
+						ui = {
+							bg_gutter = "none",
+							bg = "#131418", -- Darker background color
+							bg_m1 = "#0d0e12", -- Even darker for some elements
+							bg_m2 = "#090a0d", -- Darkest background variant
+							bg_p1 = "#1a1b20", -- Slightly lighter for highlights
+							bg_p2 = "#21232a", -- Even lighter for more prominent elements
+						},
+					},
+				},
+			},
+			-- Theme variants: "wave", "dragon", "lotus"
+			theme = "dragon", -- Default theme
+			-- Override highlights
+			overrides = function(colors)
+				local theme = colors.theme
+				return {
+					-- Normal background override
+					Normal = { bg = theme.ui.bg },
+					NormalFloat = { bg = theme.ui.bg_m1 },
+					FloatBorder = { bg = theme.ui.bg_m1 },
 
---       -- Palette overrides for different variants
---       colors = {
---         theme = {
---           all = {
---             ui = {
---               bg_gutter = "none",
---             }
---           }
---         }
---       },
-
---       -- Theme variants: "wave", "dragon", "lotus"
---       theme = "dragon", -- Default theme
-
---       -- Override highlights
---       overrides = function(colors)
---         local theme = colors.theme
---         return {
---           -- Telescope customization
---           TelescopeNormal = { link = "NormalFloat" },
---           TelescopeBorder = { link = "FloatBorder" },
---           TelescopePromptPrefix = { fg = theme.syn.keyword },
---           TelescopePromptTitle = { fg = theme.ui.bg, bg = theme.syn.fun },
---           TelescopePreviewTitle = { fg = theme.ui.bg, bg = theme.syn.type },
---           TelescopeResultsTitle = { fg = theme.ui.bg, bg = theme.syn.constant },
-
---           -- LSP
---           LspReferenceText = { bg = theme.ui.bg_p2 },
---           LspReferenceRead = { bg = theme.ui.bg_p2 },
---           LspReferenceWrite = { bg = theme.ui.bg_p2 },
-
---           -- Cursor line and column
---           CursorLine = { bg = theme.ui.bg_p1 },
---           CursorLineNr = { fg = theme.syn.fun, bold = true },
-
---           -- Indent lines
---           IndentBlanklineChar = { fg = theme.ui.nontext },
-
---           -- NvimTree
---           NvimTreeNormal = { link = "Normal" },
---           NvimTreeWinSeparator = { fg = theme.ui.nontext },
-
---           -- Diagnostics
---           DiagnosticUnderlineError = { undercurl = true, sp = theme.diag.error },
---           DiagnosticUnderlineWarn = { undercurl = true, sp = theme.diag.warning },
---           DiagnosticUnderlineInfo = { undercurl = true, sp = theme.diag.info },
---           DiagnosticUnderlineHint = { undercurl = true, sp = theme.diag.hint },
---         }
---       end,
---     })
-
---     -- Load the colorscheme
---     vim.cmd.colorscheme "kanagawa-wave"
-
---     -- Additional configuration
---     vim.opt.termguicolors = true
---     vim.opt.cursorline = true
---   end,
--- }
+					-- Telescope customization
+					TelescopeNormal = { link = "NormalFloat" },
+					TelescopeBorder = { link = "FloatBorder" },
+					TelescopePromptPrefix = { fg = theme.syn.keyword },
+					TelescopePromptTitle = { fg = theme.ui.bg, bg = theme.syn.fun },
+					TelescopePreviewTitle = { fg = theme.ui.bg, bg = theme.syn.type },
+					TelescopeResultsTitle = { fg = theme.ui.bg, bg = theme.syn.constant },
+					-- LSP
+					LspReferenceText = { bg = theme.ui.bg_p2 },
+					LspReferenceRead = { bg = theme.ui.bg_p2 },
+					LspReferenceWrite = { bg = theme.ui.bg_p2 },
+					-- Cursor line and column
+					CursorLine = { bg = theme.ui.bg_p1 },
+					CursorLineNr = { fg = theme.syn.fun, bold = true },
+					-- Indent lines
+					IndentBlanklineChar = { fg = theme.ui.nontext },
+					-- NvimTree
+					NvimTreeNormal = { link = "Normal" },
+					NvimTreeWinSeparator = { fg = theme.ui.nontext },
+					-- Diagnostics
+					DiagnosticUnderlineError = { undercurl = true, sp = theme.diag.error },
+					DiagnosticUnderlineWarn = { undercurl = true, sp = theme.diag.warning },
+					DiagnosticUnderlineInfo = { undercurl = true, sp = theme.diag.info },
+					DiagnosticUnderlineHint = { undercurl = true, sp = theme.diag.hint },
+				}
+			end,
+		})
+		-- Load the colorscheme
+		vim.cmd.colorscheme("kanagawa-dragon")
+		-- Additional configuration
+		vim.opt.termguicolors = true
+		vim.opt.cursorline = true
+	end,
+}
 
 -- return {
 --   "mellow-theme/mellow.nvim",
@@ -504,5 +548,3 @@ return {
 --     vim.cmd.colorscheme "vscode"
 --   end
 -- }
-
-

@@ -1,9 +1,54 @@
 # General
 working-directory = ~/          # Start in home directory
-#window-decoration=server
-gtk-titlebar=false
-keybind=global:ctrl+f=toggle_fullscreen
-# Mouse
+window-decoration=server
+#gtk-titlebar=false
+
+# Ghostty configuration with darker background to match kanagawa-nvim theme
+# Set the background color to match the Neovim theme
+background = #131418
+foreground = #dcd7ba
+
+# Font configuration
+font-family = "JetBrains Mono"
+font-size = 14
+font-feature = "calt=1"
+font-feature = "ss01=1"
+font-feature = "ss02=1"
+font-feature = "ss03=1"
+font-feature = "ss04=1"
+
+# Window configuration
+window-padding-x = 10
+window-padding-y = 10
+window-theme = dark
+macos-option-as-alt = true
+
+# Cursor configuration
+cursor-style = block
+cursor-style-blink = false
+cursor-color = #c8c093
+
+# Mouse configuration
 mouse-hide-while-typing = true
-#font
-font-size=14
+
+# Kanagawa-dragon color palette
+palette = 0=#090a0d
+palette = 1=#c34043
+palette = 2=#76946a
+palette = 3=#c0a36e
+palette = 4=#7e9cd8
+palette = 5=#957fb8
+palette = 6=#6a9589
+palette = 7=#c8c093
+palette = 8=#727169
+palette = 9=#e82424
+palette = 10=#98bb6c
+palette = 11=#e6c384
+palette = 12=#7fb4ca
+palette = 13=#938aa9
+palette = 14=#7aa89f
+palette = 15=#dcd7ba
+
+# Selection colors
+selection-background = #2d4f67
+selection-foreground = #dcd7ba

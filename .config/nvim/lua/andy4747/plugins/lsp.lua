@@ -1,587 +1,388 @@
 return {
-  --mason config for installing lsp server, dap, linters
-  {
-    "williamboman/mason.nvim",
-    dependencies = {
-      "williamboman/mason-lspconfig.nvim",
-    },
-    config = function()
-      local mason = require("mason")
-      local mason_lspconfig = require("mason-lspconfig")
+	--mason config for installing lsp server, dap, linters
+	{
+		"williamboman/mason.nvim",
+		dependencies = {
+			"williamboman/mason-lspconfig.nvim",
+			"hrsh7th/cmp-nvim-lsp",
+			"neovim/nvim-lspconfig",
+		},
+		config = function()
+			local mason = require("mason")
+			local mason_lspconfig = require("mason-lspconfig")
 
-      mason.setup({
-        ui = {
-          icons = {
-            package_installed = "✓",
-            package_pending = "➜",
-            package_uninstalled = "✗",
-          },
-        },
-      })
+			mason.setup({
+				ui = {
+					icons = {
+						package_installed = "✓",
+						package_pending = "➜",
+						package_uninstalled = "✗",
+					},
+				},
+			})
 
-      mason_lspconfig.setup({
-        ensure_installed = {
-          -- Go
-          "gopls",
-          "golangci_lint_ls",
-          -- JavaScript/TypeScript/React
-          "ts_ls",
-          "eslint",
-          "html",
-          "cssls",
-          "tailwindcss",
-          -- Zig
-          "zls",
-          -- Lua (for Neovim)
-          "lua_ls",
-          -- DevOps
-          "dockerls",
-          "docker_compose_language_service",
-          "yamlls",
-          "jsonls",
-          "terraformls",
-          "bashls",
+			mason_lspconfig.setup({
+				ensure_installed = {
+					-- c/cpp
+					"clangd",
+					-- Go
+					"gopls",
+					"golangci_lint_ls",
+					-- JavaScript/TypeScript/React
+					"eslint",
+					"html",
+					"cssls",
+					"tailwindcss",
+					-- Zig
+					"zls",
+					-- Lua (for Neovim)
+					"lua_ls",
+					-- DevOps
+					"dockerls",
+					"docker_compose_language_service",
+					"yamlls",
+					"jsonls",
+					"terraformls",
+					"bashls",
+					-- Python
+					"pyright",
+					-- Markdown (for documentation and README editing)
+					"marksman",
+					-- SQL
+					"sqlls",
+					-- TOML (for config files, eg. cargo, pyproject)
+					"taplo",
+					-- XML
+					"lemminx",
+					-- CI/CD tools (optional)
+					"ansiblels", -- For Ansible playbooks
+					"helm_ls", -- Helm chart files
+					"powershell_es", -- Windows scripting
+				},
+				automatic_installation = true,
+			})
+		end,
+	},
+	{
+		"neovim/nvim-lspconfig",
+		event = { "BufReadPre", "BufNewFile" },
+		dependencies = {
+			"hrsh7th/cmp-nvim-lsp",
+			{ "antosha417/nvim-lsp-file-operations", config = true },
+			{ "folke/neodev.nvim", opts = {} },
+		},
+		config = function()
+			local cmp_nvim_lsp = require("cmp_nvim_lsp")
+			local capabilities = cmp_nvim_lsp.default_capabilities() -- used to enable autocompletion
+			local lspconfig = require("lspconfig")
 
-          -- Python
-          "pyright",
-          -- Shell
-          "bashls",
-          -- Markdown (for documentation and README editing)
-          "marksman",
-          -- SQL
-          "sqlls",
-          -- TOML (for config files, eg. cargo, pyproject)
-          "taplo",
-          -- XML
-          "lemminx",
-          -- YAML schema support
-          "yamlls",
-          -- CI/CD tools (optional)
-          "ansiblels",     -- For Ansible playbooks
-          "helm_ls",       -- Helm chart files
-          "powershell_es", -- Windows scripting
-        },
-        automatic_installation = true,
-      })
-    end,
-  },
-  -- lspconfig
-  {
-    "neovim/nvim-lspconfig",
-    event = { "BufReadPre", "BufNewFile" },
-    dependencies = {
-      { "folke/neodev.nvim", opts = {} },
-      {
-        "hrsh7th/cmp-nvim-lsp",
-      },
-      "b0o/schemastore.nvim",
-    },
-    config = function()
-      require("neodev").setup()
-      local lspconfig = require("lspconfig")
-      -- LSP on_attach function to set keybindings when an LSP connects to a buffer
-      local on_attach = function(client, bufnr)
-        -- Initialize which-key
-        local wk = require("which-key")
+			-- Configure default LSP servers
+			local servers = {
+				"clangd",
+				"html",
+				"cssls",
+				"tailwindcss",
+				"lua_ls",
+				"gopls",
+				"golangci_lint_ls",
+				"zls",
+				"dockerls",
+				"docker_compose_language_service",
+				"yamlls",
+				"jsonls",
+				"terraformls",
+				"bashls",
+				"pyright",
+				"marksman",
+				"sqlls",
+				"taplo",
+				"lemminx",
+				"ansiblels",
+				"helm_ls",
+				"powershell_es",
+			}
 
-        -- Define keymap groups using wk.add
-        wk.add({
-          -- Leader-based keymaps
-          {
-            "<leader>D",
-            vim.lsp.buf.type_definition,
-            desc = "Type Definition",
-            buffer = bufnr,
-          },
-          { "<leader>c", group = "Code",     buffer = bufnr },
-          {
-            "<leader>ca",
-            vim.lsp.buf.code_action,
-            desc = "Code Action",
-            buffer = bufnr,
-          },
-          {
-            "<leader>cr",
-            vim.lsp.buf.rename,
-            desc = "Rename",
-            buffer = bufnr,
-          },
-          {
-            "<leader>cli",
-            "<cmd>LspInfo<cr>",
-            desc = "LSP Info",
-            buffer = bufnr,
-          },
-          {
-            "<leader>clr",
-            "<cmd>LspRestart<CR>",
-            desc = "Restart LSP",
-            buffer = bufnr,
-          },
-          { "<leader>d", group = "Document", buffer = bufnr },
-          {
-            "<leader>ds",
-            require("telescope.builtin").lsp_document_symbols,
-            desc = "Document Symbols",
-            buffer = bufnr,
-          },
-          {
-            "<leader>dws",
-            require("telescope.builtin").lsp_dynamic_workspace_symbols,
-            desc = "Workspace Symbols",
-            buffer = bufnr,
-          },
-          -- Non-leader keymaps
-          { "g", group = "Go", buffer = bufnr },
-          {
-            "gd",
-            vim.lsp.buf.definition,
-            desc = "Go to Definition",
-            buffer = bufnr,
-          },
-          {
-            "gr",
-            require("telescope.builtin").lsp_references,
-            desc = "Find References",
-            buffer = bufnr,
-          },
-          {
-            "gI",
-            vim.lsp.buf.implementation,
-            desc = "Go to Implementation",
-            buffer = bufnr,
-          },
-          {
-            "gt",
-            vim.lsp.buf.type_definition,
-            desc = "Go to Type Definition",
-            buffer = bufnr,
-          },
-          {
-            "K",
-            vim.lsp.buf.hover,
-            desc = "Hover Documentation",
-            buffer = bufnr,
-          },
-          {
-            "<C-s>",
-            vim.lsp.buf.signature_help,
-            desc = "Signature Help",
-            buffer = bufnr,
-          },
-          {
-            "[d",
-            vim.diagnostic.goto_prev,
-            desc = "Prev Diagnostic",
-            buffer = bufnr,
-          },
-          {
-            "]d",
-            vim.diagnostic.goto_next,
-            desc = "Next Diagnostic",
-            buffer = bufnr,
-          },
-          {
-            "D",
-            vim.diagnostic.open_float,
-            desc = "Show Diagnostics",
-            buffer = bufnr,
-          },
-        }, { mode = "n" })
-      end
-      -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      -- enable files watching
-      capabilities.workspace.didChangeWatchedFiles = {
-        dynamicRegistration = true,
-      }
-      capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+			-- Set up each LSP with default capabilities
+			for _, server in ipairs(servers) do
+				if server ~= "lua_ls" then -- we'll configure lua_ls separately
+					lspconfig[server].setup({
+						capabilities = capabilities,
+					})
+				end
+			end
 
-      local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
-      for type, icon in pairs(signs) do
-        local hl = "DiagnosticSign" .. type
-        -- define diagnostic sign for neovim <= 0.10
-        -- vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-        -- define diagnostic sign for neovim >= 0.11
-        vim.diagnostic.config({
-          signs = {
-            text = {
-              [vim.diagnostic.severity.ERROR] = " ",
-              [vim.diagnostic.severity.WARN] = " ",
-              [vim.diagnostic.severity.INFO] = "󰠠 ",
-              [vim.diagnostic.severity.HINT] = " ",
-            },
-          },
-        })
-      end
-      -- gopls setup
-      lspconfig.gopls.setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
-        settings = {
-          gopls = {
-            analyses = {
-              unusedparams = true,
-              shadow = true,
-              nilness = true,
-              unusedwrite = true,
-              useany = true,
-            },
-            completeUnimported = true,
-            gofumpt = true,
-            staticcheck = true,
-            semanticTokens = true,
-            usePlaceholders = true,
-            hints = {
-              compositeLiteralFields = true,
-              compositeLiteralTypes = true,
-              constantValues = true,
-              functionTypeParameters = true,
-              parameterNames = true,
-              rangeVariableTypes = true,
-            },
-          },
-        },
-      })
+			-- configuring clangd lsp settings
+			-- lspconfig["clangd"].setup({
+			-- 	capabilities = capabilities,
+			-- 	cmd = { "clangd" },
+			-- 	filetypes = { "c", "cpp", "objc", "objcpp" },
+			-- 	root_dir = lspconfig.util.root_pattern("compile_commands.json", "compile_flags.txt", ".git"),
+			-- })
 
-      -- Lua
-      lspconfig.lua_ls.setup({
-        on_attach = on_attach,
-        capabilities = capabilities,
-        settings = {
-          Lua = {
-            diagnostics = {
-              globals = { "vim" },
-            },
-            workspace = {
-              library = {
-                [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-                [vim.fn.stdpath("config") .. "/lua"] = true,
-              },
-              checkThirdParty = false,
-            },
-            telemetry = { enable = false },
-            completion = {
-              callSnippet = "Replace",
-            },
-          },
-        },
-      })
+			-- Customize Lua LSP for Neovim development
+			lspconfig["lua_ls"].setup({
+				capabilities = capabilities,
+				settings = {
+					Lua = {
+						-- make the language server recognize "vim" global
+						diagnostics = {
+							globals = { "vim" },
+						},
+						completion = {
+							callSnippet = "Replace",
+						},
+						workspace = {
+							-- make language server aware of run time files
+							library = {
+								[vim.fn.expand("$VIMRUNTIME/lua")] = true,
+								[vim.fn.stdpath("config") .. "/lua"] = true,
+							},
+						},
+					},
+				},
+			})
 
-      -- Golangci-lint
-      lspconfig.golangci_lint_ls.setup({
-        on_attach = on_attach,
-        capabilities = capabilities,
-        -- Set up proper filetypes for Go files
-        filetypes = { "go", "gomod", "gosum", "gowork" },
-      })
+			-- Configure ESLint explicitly for React/JS/TS projects
+			lspconfig.eslint.setup({
+				capabilities = capabilities,
+				on_attach = function(client, bufnr)
+					-- Enable autofix on save
+					vim.api.nvim_create_autocmd("BufWritePre", {
+						buffer = bufnr,
+						command = "EslintFixAll",
+					})
+				end,
+				settings = {
+					eslint = {
+						enable = true,
+						packageManager = "npm", -- or "yarn", "pnpm" depending on your project
+						alwaysShowStatus = true,
+						autoFixOnSave = true, -- auto fix on save
+						-- Add JSX/TSX specific rules
+						validate = {
+							"javascript",
+							"javascriptreact",
+							"typescript",
+							"typescriptreact",
+						},
+					},
+				},
+			})
 
-      --zig
-      lspconfig.zls.setup({
-        on_attach = on_attach,
-        capabilities = capabilities,
-      })
+			-- NOTE: LSP Keybinds
+			vim.api.nvim_create_autocmd("LspAttach", {
+				group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+				callback = function(ev)
+					-- Buffer local mappings
+					-- Check `:help vim.lsp.*` for documentation on any of the below functions
+					local opts = { buffer = ev.buf, silent = true }
 
+					-- keymaps
+					opts.desc = "Show LSP references"
+					vim.keymap.set("n", "gR", "<cmd>Telescope lsp_references<CR>", opts) -- show definition, references
 
-      --CSS
-      lspconfig.cssls.setup({
-        on_attach = on_attach,
-        capabilities = capabilities,
-      })
+					opts.desc = "Go to declaration"
+					vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts) -- go to declaration
 
-      -- HTML
-      lspconfig.html.setup({
-        on_attach = on_attach,
-        capabilities = capabilities,
-      })
+					opts.desc = "Show LSP definitions"
+					vim.keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts) -- show lsp definitions
 
-      -- Docker
-      lspconfig.dockerls.setup({
-        on_attach = on_attach,
-        capabilities = capabilities,
-      })
+					opts.desc = "Show LSP implementations"
+					vim.keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>", opts) -- show lsp implementations
 
-      -- Docker Compose
-      lspconfig.docker_compose_language_service.setup({
-        on_attach = on_attach,
-        capabilities = capabilities,
-      })
+					opts.desc = "Show LSP type definitions"
+					vim.keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>", opts) -- show lsp type definitions
 
-      -- YAML (for Kubernetes, GitHub Actions, etc.)
-      lspconfig.yamlls.setup({
-        on_attach = on_attach,
-        capabilities = capabilities,
-        settings = {
-          yaml = {
-            schemas = {
-              ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
-              ["https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json"] =
-              "/*.k8s.yaml",
-            },
-            format = { enable = true },
-            validate = true,
-          },
-        },
-      })
+					opts.desc = "See available code actions"
+					vim.keymap.set({ "n", "v" }, "<leader>vca", function()
+						vim.lsp.buf.code_action()
+					end, opts) -- see available code actions, in visual mode will apply to selection
 
-      -- JSON
-      lspconfig.jsonls.setup({
-        on_attach = on_attach,
-        capabilities = capabilities,
-        settings = {
-          json = {
-            schemas = require("schemastore").json.schemas(),
-            validate = { enable = true },
-          },
-        },
-      })
+					opts.desc = "Smart rename"
+					vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts) -- smart rename
 
-      -- Terraform
-      lspconfig.terraformls.setup({
-        on_attach = on_attach,
-        capabilities = capabilities,
-      })
+					opts.desc = "Show buffer diagnostics"
+					vim.keymap.set("n", "<leader>D", "<cmd>Telescope diagnostics bufnr=0<CR>", opts) -- show  diagnostics for file
 
-      -- Bash
-      lspconfig.bashls.setup({
-        on_attach = on_attach,
-        capabilities = capabilities,
-      })
+					opts.desc = "Show line diagnostics"
+					vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts) -- show diagnostics for line
 
-      -- JavaScript/TypeScript
-      lspconfig.ts_ls.setup({
-        on_attach = function(client, bufnr)
-          -- Disable formatting from tsserver when using prettier
-          client.server_capabilities.documentFormattingProvider = false
-          client.server_capabilities.documentRangeFormattingProvider = false
-          on_attach(client, bufnr)
-        end,
-        capabilities = capabilities,
-        settings = {
-          typescript = {
-            inlayHints = {
-              includeInlayParameterNameHints = "all",
-              includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-              includeInlayFunctionParameterTypeHints = true,
-              includeInlayVariableTypeHints = true,
-              includeInlayPropertyDeclarationTypeHints = true,
-              includeInlayFunctionLikeReturnTypeHints = true,
-              includeInlayEnumMemberValueHints = true,
-            },
-          },
-          javascript = {
-            inlayHints = {
-              includeInlayParameterNameHints = "all",
-              includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-              includeInlayFunctionParameterTypeHints = true,
-              includeInlayVariableTypeHints = true,
-              includeInlayPropertyDeclarationTypeHints = true,
-              includeInlayFunctionLikeReturnTypeHints = true,
-              includeInlayEnumMemberValueHints = true,
-            },
-          },
-        },
-      })
-    end,
-  },
-  -- Go specific plugins
-  {
-    "ray-x/go.nvim",
-    dependencies = {
-      "ray-x/guihua.lua",
-      "neovim/nvim-lspconfig",
-      "nvim-treesitter/nvim-treesitter",
-    },
-    config = function()
-      require("go").setup({
-        -- Go linting configuration
-        lsp_cfg = false, -- We'll use our own LSP setup
-        lsp_gofumpt = true,
-        dap_debug = true,
-        dap_debug_gui = true,
-        -- Run gofmt + goimports on save
-        lsp_document_formatting = true,
-        -- Add tags and struct field completion
-        tag_transform = "snakecase",
-        -- Organize imports on save
-        lsp_inlay_hints = {
-          enable = true,
-          parameter_hints = true,
-          type_hints = true,
-          other_hints = {
-            variable_type = true,
-          },
-        },
-        -- Set up test flags
-        test_runner = "go",
-        run_in_floaterm = true,
-        trouble = true,
-      })
+					opts.desc = "Show documentation for what is under cursor"
+					vim.keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
 
-      -- Format on save
-      -- local format_sync_grp = vim.api.nvim_create_augroup("GoFormat", {})
-      -- vim.api.nvim_create_autocmd(
-      --   "BufWritePre",
-      --   {
-      --     pattern = "*.go",
-      --     callback = function()
-      --       require("go.format").goimport()
-      --     end,
-      --     group = format_sync_grp
-      --   }
-      -- )
+					opts.desc = "Restart LSP"
+					vim.keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
 
-      -- Setup keymaps for Go
-      vim.api.nvim_create_autocmd("FileType", {
-        pattern = "go",
-        callback = function()
-          -- Go specific keymaps
-          local map = function(mode, lhs, rhs, desc)
-            local opts = { buffer = true, desc = desc }
-            vim.keymap.set(mode, lhs, rhs, opts)
-          end
+					vim.keymap.set("i", "<C-h>", function()
+						vim.lsp.buf.signature_help()
+					end, opts)
+				end,
+			})
+			-- Define sign icons for each severity
+			local signs = {
+				[vim.diagnostic.severity.ERROR] = " ",
+				[vim.diagnostic.severity.WARN] = " ",
+				[vim.diagnostic.severity.HINT] = "󰠠 ",
+				[vim.diagnostic.severity.INFO] = " ",
+			}
 
-          map("n", "<leader>gc", "<cmd>GoCmt<CR>", "Add/Fix Go Comment")
-          map("n", "<leader>gfs", "<cmd>GoFillStruct<CR>", "Fill Struct")
-          map("n", "<leader>gim", "<cmd>GoImpl<CR>", "Implement Interface")
-          map("n", "<leader>gta", "<cmd>GoAddTag json<CR>", "Add tag json")
-          map("n", "<leader>gtr", "<cmd>GoRmTag<CR>", "Remove Tags")
-          map("n", "<leader>gtt", "<cmd>GoTest<CR>", "Run Test")
-          map("n", "<leader>gtf", "<cmd>GoTestFunc<CR>", "Run Test Function")
-          map("n", "<leader>gie", "<cmd>GoIfErr<CR>", "Add if err")
-          map("n", "<leader>gl", "<cmd>GoLint<CR>", "Run Linter")
-          map("n", "<leader>gmd", "<cmd>GoModTidy<CR>", "Go Mod Tidy")
-        end,
-      })
-    end,
-    ft = { "go", "gomod", "gosum", "gowork" },
-    build = ':lua require("go.install").update_all_sync()',
-  },
-  -- TypeScript/JavaScript tools
-  {
-    "pmizio/typescript-tools.nvim",
-    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-    opts = {
-      settings = {
-        tsserver_file_preferences = {
-          importModuleSpecifierPreference = "non-relative",
-        },
-      },
-    },
-    ft = {
-      "typescript",
-      "javascript",
-      "typescriptreact",
-      "javascriptreact",
-    },
-  },
-  -- Autocompletion
-  {
-    "hrsh7th/nvim-cmp",
-    event = "InsertEnter",
-    dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-path",
-      "hrsh7th/cmp-cmdline",
-      "saadparwaiz1/cmp_luasnip",
-      "L3MON4D3/LuaSnip",
-      "rafamadriz/friendly-snippets",
-      "onsails/lspkind.nvim", -- Nice icons in completion menu
-    },
-    config = function()
-      local cmp = require("cmp")
-      local luasnip = require("luasnip")
-      local lspkind = require("lspkind")
+			-- Set the diagnostic config with all icons
+			vim.diagnostic.config({
+				signs = {
+					text = signs, -- Enable signs in the gutter
+				},
+				virtual_text = true, -- Specify Enable virtual text for diagnostics
+				underline = true, -- Specify Underline diagnostics
+				update_in_insert = false, -- Keep diagnostics active in insert mode
+				severity_sort = true, -- Sort by severity - prioritize errors over warnings
+				float = {
+					focusable = true,
+					style = "minimal",
+					border = "rounded",
+					header = "",
+					prefix = "",
+				},
+			})
+		end,
+	},
 
-      -- Load friendly-snippets
-      require("luasnip.loaders.from_vscode").lazy_load()
+	-- Go specific plugins
+	{
+		"ray-x/go.nvim",
+		dependencies = {
+			"ray-x/guihua.lua",
+			"neovim/nvim-lspconfig",
+			"nvim-treesitter/nvim-treesitter",
+		},
+		config = function()
+			require("go").setup({
+				-- Go linting configuration
+				lsp_cfg = false, -- We'll use our own LSP setup
+				lsp_gofumpt = true,
+				dap_debug = true,
+				dap_debug_gui = true,
+				-- Run gofmt + goimports on save
+				lsp_document_formatting = true,
+				-- Add tags and struct field completion
+				tag_transform = "snakecase",
+				-- Organize imports on save
+				lsp_inlay_hints = {
+					enable = true,
+					parameter_hints = true,
+					type_hints = true,
+					other_hints = {
+						variable_type = true,
+					},
+				},
+				-- Set up test flags
+				test_runner = "go",
+				run_in_floaterm = true,
+				trouble = true,
+			})
 
-      -- Add Go, React, TS/JS snippets
-      require("luasnip.loaders.from_vscode").lazy_load({ paths = { "./snippets/go" } })
-      require("luasnip.loaders.from_vscode").lazy_load({ paths = { "./snippets/typescript-react" } })
-      require("luasnip.loaders.from_vscode").lazy_load({ paths = { "./snippets/docker" } })
+			-- Setup keymaps for Go
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = "go",
+				callback = function()
+					-- Go specific keymaps
+					local map = function(mode, lhs, rhs, desc)
+						local opts = { buffer = true, desc = desc }
+						vim.keymap.set(mode, lhs, rhs, opts)
+					end
 
-      cmp.setup({
-        snippet = {
-          expand = function(args)
-            luasnip.lsp_expand(args.body)
-          end,
-        },
-        mapping = cmp.mapping.preset.insert({
-          ["<C-k>"] = cmp.mapping.select_prev_item(),
-          ["<C-j>"] = cmp.mapping.select_next_item(),
-          ["<C-d>"] = cmp.mapping.scroll_docs(-4),
-          ["<C-f>"] = cmp.mapping.scroll_docs(4),
-          ["<C-Space>"] = cmp.mapping.complete(),
-          ["<C-e>"] = cmp.mapping.abort(),
-          ["<CR>"] = cmp.mapping.confirm({
-            behavior = cmp.ConfirmBehavior.Replace,
-            select = true,
-          }),
-          ["<Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_next_item()
-            elseif luasnip.expand_or_jumpable() then
-              luasnip.expand_or_jump()
-            else
-              fallback()
-            end
-          end, { "i", "s" }),
-          ["<S-Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_prev_item()
-            elseif luasnip.jumpable(-1) then
-              luasnip.jump(-1)
-            else
-              fallback()
-            end
-          end, { "i", "s" }),
-        }),
-        formatting = {
-          format = lspkind.cmp_format({
-            mode = "symbol_text",
-            maxwidth = 50,
-            ellipsis_char = "...",
-            menu = {
-              buffer = "[Buffer]",
-              nvim_lsp = "[LSP]",
-              luasnip = "[Snippet]",
-              path = "[Path]",
-            },
-          }),
-        },
-        sources = cmp.config.sources({
-          { name = "nvim_lsp", priority = 1000 },
-          { name = "luasnip",  priority = 750 },
-          { name = "buffer",   priority = 500 },
-          { name = "path",     priority = 250 },
-        }),
-        window = {
-          completion = cmp.config.window.bordered(),
-          documentation = cmp.config.window.bordered(),
-        },
-        experimental = {
-          ghost_text = true,
-        },
-      })
+					map("n", "<leader>gc", "<cmd>GoCmt<CR>", "Add/Fix Go Comment")
+					map("n", "<leader>gfs", "<cmd>GoFillStruct<CR>", "Fill Struct")
+					map("n", "<leader>gim", "<cmd>GoImpl<CR>", "Implement Interface")
+					map("n", "<leader>gta", "<cmd>GoAddTag json<CR>", "Add tag json")
+					map("n", "<leader>gtr", "<cmd>GoRmTag<CR>", "Remove Tags")
+					map("n", "<leader>gtt", "<cmd>GoTest<CR>", "Run Test")
+					map("n", "<leader>gtf", "<cmd>GoTestFunc<CR>", "Run Test Function")
+					map("n", "<leader>gie", "<cmd>GoIfErr<CR>", "Add if err")
+					map("n", "<leader>gl", "<cmd>GoLint<CR>", "Run Linter")
+					map("n", "<leader>gmd", "<cmd>GoModTidy<CR>", "Go Mod Tidy")
+				end,
+			})
+		end,
+		ft = { "go", "gomod", "gosum", "gowork" },
+		build = ':lua require("go.install").update_all_sync()',
+	},
 
-      -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore)
-      cmp.setup.cmdline("/", {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = {
-          { name = "buffer" },
-        },
-      })
+	-- TypeScript/JavaScript tools - Using typescript-tools instead of ts_ls
+	{
+		"pmizio/typescript-tools.nvim",
+		dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+		config = function()
+			require("typescript-tools").setup({
+				settings = {
+					-- Specify import preferences
+					tsserver_file_preferences = {
+						importModuleSpecifierPreference = "non-relative",
+						includeInlayParameterNameHints = "all",
+						includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+						includeInlayFunctionParameterTypeHints = true,
+						includeInlayVariableTypeHints = true,
+						includeInlayPropertyDeclarationTypeHints = true,
+						includeInlayFunctionLikeReturnTypeHints = true,
+						includeInlayEnumMemberValueHints = true,
+					},
+					-- Enhance JSX/TSX support
+					tsserver_format_options = {
+						allowIncompleteCompletions = false,
+						allowRenameOfImportPath = false,
+					},
+					-- Diagnostics settings
+					tsserver_plugins = {
+						-- Add plugins if needed
+					},
+					jsx_close_tag = {
+						enable = true,
+						filetypes = { "javascriptreact", "typescriptreact" },
+					},
+				},
+				-- Custom handlers for specific actions
+				handlers = {
+					["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
+						if result.diagnostics == nil then
+							return
+						end
 
-      -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore)
-      cmp.setup.cmdline(":", {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = cmp.config.sources({
-          { name = "path" },
-          { name = "cmdline" },
-        }),
-      })
-    end,
-  },
+						-- Filter out specific errors or warnings if needed
+						local filtered_diagnostics = vim.tbl_filter(function(diagnostic)
+							-- Example: filter out specific error codes if they're problematic
+							-- return diagnostic.code ~= 80001
+							return true -- Keep all diagnostics by default
+						end, result.diagnostics)
+
+						result.diagnostics = filtered_diagnostics
+
+						vim.lsp.handlers["textDocument/publishDiagnostics"](err, result, ctx, config)
+					end,
+				},
+			})
+
+			-- Add specific keymaps for React/TypeScript files
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = { "typescriptreact", "javascriptreact", "typescript", "javascript" },
+				callback = function()
+					local map = function(mode, lhs, rhs, desc)
+						local opts = { buffer = true, desc = desc }
+						vim.keymap.set(mode, lhs, rhs, opts)
+					end
+
+					map("n", "<leader>toi", "<cmd>TSToolsOrganizeImports<CR>", "Organize Imports")
+					map("n", "<leader>tru", "<cmd>TSToolsRemoveUnused<CR>", "Remove Unused")
+					map("n", "<leader>tfa", "<cmd>TSToolsFixAll<CR>", "Fix All")
+					map("n", "<leader>trf", "<cmd>TSToolsRenameFile<CR>", "Rename File")
+					map("n", "<leader>tai", "<cmd>TSToolsAddMissingImports<CR>", "Add Missing Imports")
+					map("n", "<leader>tci", "<cmd>TSToolsGoToSourceDefinition<CR>", "Find Implementation")
+				end,
+			})
+		end,
+		ft = {
+			"typescript",
+			"javascript",
+			"typescriptreact",
+			"javascriptreact",
+		},
+	},
 }
