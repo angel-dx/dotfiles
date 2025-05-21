@@ -1,15 +1,11 @@
-# Set Oh My Zsh installation path
+# Common config
 export ZSH="$HOME/.oh-my-zsh"
-export ZSH_CUSTOM="$ZSH/custom"  # Ensure custom plugins are placed here
-
-# Theme and plugin settings
+export ZSH_CUSTOM="$ZSH/custom"
 ZSH_THEME="robbyrussell"
 plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
-
-# Source Oh My Zsh
 source $ZSH/oh-my-zsh.sh
 
-# History settings
+# History
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
@@ -17,30 +13,31 @@ setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_FIND_NO_DUPS
 setopt SHARE_HISTORY
 
-# Autosuggestions config
+# Autosuggestions style
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
-
-# change autosuggestion-accept to space key
 bindkey '^ ' autosuggest-accept
 
-# Golang path settings
-export PATH=$PATH:/usr/local/go/bin
-export GOPATH=$HOME/go  # Fixed typo from GOAPTH to GOPATH
-export PATH=$PATH:$GOPATH/bin
+# Platform-specific configs
+case "$OSTYPE" in
+  darwin*)
+    export PATH="/opt/homebrew/bin:$PATH" 
+    ;;
+  linux*)
+    export PATH=$PATH:/usr/local/go/bin
+    export GOPATH=$HOME/go
+    export PATH=$PATH:$GOPATH/bin
+    export PATH="$HOME/zig/zig-linux-x86_64-0.14.0:$PATH"
+    ;;
+esac
 
-
-#zsh path
-export PATH="$HOME/zig/zig-linux-x86_64-0.14.0:$PATH"
-
-# Editor settings
+# Editor
 export EDITOR='nvim'
 export VISUAL='nvim'
 export PAGER='less'
-# Aliases
-# Npm Aliases
+
+# Aliases and functions (common)
 alias nrd="npm run dev"
 alias nrb="npm run build"
-#docker aliases
 alias dcu="docker compose up -d"
 alias dcd="docker compose down"
 

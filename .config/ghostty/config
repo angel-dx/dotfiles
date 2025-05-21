@@ -10,7 +10,7 @@ foreground = #dcd7ba
 
 # Font configuration
 font-family = "JetBrains Mono"
-font-size = 14
+font-size = 28
 font-feature = "calt=1"
 font-feature = "ss01=1"
 font-feature = "ss02=1"

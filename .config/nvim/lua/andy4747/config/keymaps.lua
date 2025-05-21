@@ -11,6 +11,12 @@ vim.api.nvim_set_keymap("i", "<A-k>", "<Esc><cmd>m .-2<CR>==gi", { desc = "Move 
 vim.api.nvim_set_keymap("v", "<A-j>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
 vim.api.nvim_set_keymap("v", "<A-k>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 
+vim_map("n", "j", "gj", { noremap = true, silent = true })
+vim_map("n", "k", "gk", { noremap = true, silent = true })
+vim_map("v", "j", "gj", { noremap = true, silent = true })
+vim_map("v", "k", "gk", { noremap = true, silent = true })
+
+
 local function disable_key(mode, key)
   vim.api.nvim_set_keymap(mode, key, "<Nop>", { noremap = true, silent = true })
 end
@@ -23,5 +29,3 @@ for _, mode in ipairs({ "n", "i", "v" }) do
   disable_key(mode, "<Right>")
   -- disable_key(mode, "<Esc>") -- disable esc too
 end
-
-
