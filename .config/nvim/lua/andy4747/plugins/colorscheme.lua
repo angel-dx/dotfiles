@@ -427,81 +427,81 @@
 -- }
 
 return {
-	"rebelot/kanagawa.nvim",
-	priority = 1000, -- Load this before other plugins
-	config = function()
-		require("kanagawa").setup({
-			-- Main configuration
-			background = "dark",
-			compile = false, -- Enable compiling the colorscheme
-			undercurl = true, -- Enable undercurls
-			commentStyle = { italic = true },
-			functionStyle = {},
-			keywordStyle = { italic = true },
-			statementStyle = {},
-			typeStyle = {},
-			transparent = false, -- Do not set background color
-			dimInactive = false, -- Dim inactive window `:h hl-NormalNC`
-			terminalColors = true, -- Define vim.g.terminal_color_{0,17}
-			-- Palette overrides for different variants
-			colors = {
-				theme = {
-					all = {
-						ui = {
-							bg_gutter = "none",
-							bg = "#131418", -- Darker background color
-							bg_m1 = "#0d0e12", -- Even darker for some elements
-							bg_m2 = "#090a0d", -- Darkest background variant
-							bg_p1 = "#1a1b20", -- Slightly lighter for highlights
-							bg_p2 = "#21232a", -- Even lighter for more prominent elements
-						},
-					},
-				},
-			},
-			-- Theme variants: "wave", "dragon", "lotus"
-			theme = "dragon", -- Default theme
-			-- Override highlights
-			overrides = function(colors)
-				local theme = colors.theme
-				return {
-					-- Normal background override
-					Normal = { bg = theme.ui.bg },
-					NormalFloat = { bg = theme.ui.bg_m1 },
-					FloatBorder = { bg = theme.ui.bg_m1 },
+  "rebelot/kanagawa.nvim",
+  priority = 1000, -- Load this before other plugins
+  config = function()
+    require("kanagawa").setup({
+      -- Main configuration
+      background = "dark",
+      compile = false,  -- Enable compiling the colorscheme
+      undercurl = true, -- Enable undercurls
+      commentStyle = { italic = true },
+      functionStyle = {},
+      keywordStyle = { italic = true },
+      statementStyle = {},
+      typeStyle = {},
+      transparent = false,   -- Do not set background color
+      dimInactive = false,   -- Dim inactive window `:h hl-NormalNC`
+      terminalColors = true, -- Define vim.g.terminal_color_{0,17}
+      -- Palette overrides for different variants
+      colors = {
+        theme = {
+          all = {
+            ui = {
+              bg_gutter = "none",
+              bg = "#000000",    -- Darker background color
+              bg_m1 = "#0d0e12", -- Even darker for some elements
+              bg_m2 = "#090a0d", -- Darkest background variant
+              bg_p1 = "#1a1b20", -- Slightly lighter for highlights
+              bg_p2 = "#21232a", -- Even lighter for more prominent elements
+            },
+          },
+        },
+      },
+      -- Theme variants: "wave", "dragon", "lotus"
+      theme = "dragon", -- Default theme
+      -- Override highlights
+      overrides = function(colors)
+        local theme = colors.theme
+        return {
+          -- Normal background override
+          Normal = { bg = theme.ui.bg },
+          NormalFloat = { bg = theme.ui.bg_m1 },
+          FloatBorder = { bg = theme.ui.bg_m1 },
 
-					-- Telescope customization
-					TelescopeNormal = { link = "NormalFloat" },
-					TelescopeBorder = { link = "FloatBorder" },
-					TelescopePromptPrefix = { fg = theme.syn.keyword },
-					TelescopePromptTitle = { fg = theme.ui.bg, bg = theme.syn.fun },
-					TelescopePreviewTitle = { fg = theme.ui.bg, bg = theme.syn.type },
-					TelescopeResultsTitle = { fg = theme.ui.bg, bg = theme.syn.constant },
-					-- LSP
-					LspReferenceText = { bg = theme.ui.bg_p2 },
-					LspReferenceRead = { bg = theme.ui.bg_p2 },
-					LspReferenceWrite = { bg = theme.ui.bg_p2 },
-					-- Cursor line and column
-					CursorLine = { bg = theme.ui.bg_p1 },
-					CursorLineNr = { fg = theme.syn.fun, bold = true },
-					-- Indent lines
-					IndentBlanklineChar = { fg = theme.ui.nontext },
-					-- NvimTree
-					NvimTreeNormal = { link = "Normal" },
-					NvimTreeWinSeparator = { fg = theme.ui.nontext },
-					-- Diagnostics
-					DiagnosticUnderlineError = { undercurl = true, sp = theme.diag.error },
-					DiagnosticUnderlineWarn = { undercurl = true, sp = theme.diag.warning },
-					DiagnosticUnderlineInfo = { undercurl = true, sp = theme.diag.info },
-					DiagnosticUnderlineHint = { undercurl = true, sp = theme.diag.hint },
-				}
-			end,
-		})
-		-- Load the colorscheme
-		vim.cmd.colorscheme("kanagawa-dragon")
-		-- Additional configuration
-		vim.opt.termguicolors = true
-		vim.opt.cursorline = true
-	end,
+          -- Telescope customization
+          TelescopeNormal = { link = "NormalFloat" },
+          TelescopeBorder = { link = "FloatBorder" },
+          TelescopePromptPrefix = { fg = theme.syn.keyword },
+          TelescopePromptTitle = { fg = theme.ui.bg, bg = theme.syn.fun },
+          TelescopePreviewTitle = { fg = theme.ui.bg, bg = theme.syn.type },
+          TelescopeResultsTitle = { fg = theme.ui.bg, bg = theme.syn.constant },
+          -- LSP
+          LspReferenceText = { bg = theme.ui.bg_p2 },
+          LspReferenceRead = { bg = theme.ui.bg_p2 },
+          LspReferenceWrite = { bg = theme.ui.bg_p2 },
+          -- Cursor line and column
+          CursorLine = { bg = theme.ui.bg_p1 },
+          CursorLineNr = { fg = theme.syn.fun, bold = true },
+          -- Indent lines
+          IndentBlanklineChar = { fg = theme.ui.nontext },
+          -- NvimTree
+          NvimTreeNormal = { link = "Normal" },
+          NvimTreeWinSeparator = { fg = theme.ui.nontext },
+          -- Diagnostics
+          DiagnosticUnderlineError = { undercurl = true, sp = theme.diag.error },
+          DiagnosticUnderlineWarn = { undercurl = true, sp = theme.diag.warning },
+          DiagnosticUnderlineInfo = { undercurl = true, sp = theme.diag.info },
+          DiagnosticUnderlineHint = { undercurl = true, sp = theme.diag.hint },
+        }
+      end,
+    })
+    -- Load the colorscheme
+    vim.cmd.colorscheme("kanagawa-dragon")
+    -- Additional configuration
+    vim.opt.termguicolors = true
+    vim.opt.cursorline = true
+  end,
 }
 
 -- return {

@@ -78,7 +78,6 @@ return {
 
 			-- Configure default LSP servers
 			local servers = {
-				"clangd",
 				"html",
 				"cssls",
 				"tailwindcss",

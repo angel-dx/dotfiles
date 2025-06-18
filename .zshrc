@@ -20,13 +20,15 @@ bindkey '^ ' autosuggest-accept
 # Platform-specific configs
 case "$OSTYPE" in
   darwin*)
-    export PATH="/opt/homebrew/bin:$PATH" 
+    export PATH="/opt/homebrew/bin:$PATH"
     ;;
   linux*)
     export PATH=$PATH:/usr/local/go/bin
     export GOPATH=$HOME/go
     export PATH=$PATH:$GOPATH/bin
     export PATH="$HOME/zig/zig-linux-x86_64-0.14.0:$PATH"
+    export DXSCRIPTS="/home/$USER/dotfiles/scripts/dmenu/"
+    export PATH="$PATH:$DXSCRIPTS"
     ;;
 esac
 
@@ -40,6 +42,13 @@ alias nrd="npm run dev"
 alias nrb="npm run build"
 alias dcu="docker compose up -d"
 alias dcd="docker compose down"
+alias ls='lsd'
+alias vim='nvim'
+alias grep='grep --color=auto'
+alias cdwm='cd ~/suckless/dwm/'
+alias vdwm='vim ~/suckless/dwm/'
+alias mdwm='cd ~/suckless/dwm/; sudo make clean install; cd -'
+
 
 # Neovim cleanup function
 nvim-clean() {
@@ -62,6 +71,7 @@ nvim-clean() {
   # echo "Removing Neovim data (excluding plugins): $NVIM_DATA"
   # rm -rf "$NVIM_DATA"
   echo "Cleanup complete ✅"
+  cd -
 }
 
 #open neovim config in nvim
@@ -69,6 +79,7 @@ ncf() {
   echo "Opening Neovim Config"
   cd ~/.config/nvim/
   nvim
+  cd -
 }
 
 rmvol(){
@@ -129,3 +140,11 @@ rmvol(){
     echo "operation failed"
   fi
 }
+
+export dx="/home/angeldx/angel-dx"
+export ba="/home/angeldx/angel-dx/byte-arena"
+alias xc="xclip -selection clipboard"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

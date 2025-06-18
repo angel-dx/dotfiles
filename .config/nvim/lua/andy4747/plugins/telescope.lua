@@ -58,10 +58,11 @@ return {
           },
           project = {
             base_dirs = {
-              { path = "~/andy4747", max_depth = 3 },
+              { path = "/home/angeldx/angel-dx/", max_depth = 3, hidden_files = true },
               -- for zoro macbook
               -- { path = "~/Documents/andy4747", max_depth = 3 },
-              { path = "~/.config",  max_depth = 2 },
+              { path = "~/.config",               max_depth = 2 },
+              { path = "~/angel-dx/byte-arena" }
             },
             hidden_files = true,
           },

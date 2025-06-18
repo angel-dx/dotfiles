@@ -1,6 +1,6 @@
 #!/bin/sh
 
-choice=$(printf "Shutdown\nReboot\nLogout\nSuspend\nExit DWM" | dmenu)
+choice=$(printf "Shutdown\nReboot\nLogout\nSuspend\nExit DWM" | dmenu -i)
 
 case "$choice" in
   Shutdown) poweroff ;;
