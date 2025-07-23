@@ -1,56 +1,57 @@
 return {
-  {
-    "stevearc/oil.nvim",
-    enabled = false,
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    config = function()
-      require("oil").setup({
-        default_file_explorer = true, -- start up nvim with oil instead of netrw
-        columns = {},
-        keymaps = {
-          ["<C-h>"] = false,
-          ["<C-c>"] = false, -- prevent from closing Oil as <C-c> is esc key
-          ["<M-h>"] = "actions.select_split",
-          ["q"] = "actions.close",
+  "nvim-tree/nvim-tree.lua",
+  cmd = { "NvimTreeToggle", "NvimTreeFocus" },
+  config = function()
+    local nvimtree = require("nvim-tree")
+    nvimtree.setup({
+      filters = {
+        dotfiles = false,
+        custom = {
+          ".marks.md",
+        }
+      },
+      git = {
+        ignore = false,
+      },
+      disable_netrw = true,
+      hijack_cursor = true,
+      sync_root_with_cwd = true,
+      update_focused_file = {
+        enable = true,
+        update_root = false,
+      },
+      view = {
+        side = "left",
+        width = 30,
+        relativenumber = true,
+        preserve_window_proportions = true,
+      },
+      renderer = {
+        root_folder_label = false,
+        highlight_git = true,
+        indent_markers = { enable = true },
+        icons = {
+          glyphs = {
+            default = "󰈚",
+            folder = {
+              default = "",
+              empty = "",
+              empty_open = "",
+              open = "",
+              symlink = "",
+            },
+            git = { unmerged = "" },
+          },
         },
-        delete_to_trash = true,
-        view_options = {
-          show_hidden = true,
-        },
-        skip_confirm_for_simple_edits = true,
-      })
+      }
+    })
 
-      -- opens parent dir over current active window
-      vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
-      -- open parent dir in float window
-      vim.keymap.set("n", "<leader>-", require("oil").toggle_float)
+    local keymap = vim.keymap
 
-      vim.api.nvim_create_autocmd("FileType", {
-        pattern = "oil", -- Adjust if Oil uses a specific file type identifier
-        callback = function()
-          vim.opt_local.cursorline = true
-        end,
-      })
-    end,
-  },
-  {
-    "echasnovski/mini.files",
-    enabled = false,
-    config = function()
-      local MiniFiles = require("mini.files")
-      MiniFiles.setup({
-        mappings = {
-          go_in = "<CR>", -- Map both Enter and L to enter directories or open files
-          go_in_plus = "L",
-          go_out = "<C-h>",
-          go_out_plus = "H",
-        },
-      })
-      vim.keymap.set("n", "<leader>ee", "<cmd>lua MiniFiles.open()<CR>", { desc = "Toggle mini file explorer" }) -- toggle file explorer
-      vim.keymap.set("n", "<leader>ef", function()
-        MiniFiles.open(vim.api.nvim_buf_get_name(0), false)
-        MiniFiles.reveal_cwd()
-      end, { desc = "Toggle into currently opened file" })
-    end,
-  },
+    keymap.set("n", "<leader>ee", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle file explorer" })         -- toggle file explorer
+    keymap.set("n", "<leader>ef", "<cmd>NvimTreeFindFileToggle<CR>",
+      { desc = "Toggle file explorer on current file" })                                                -- toggle file explorer on current file
+    keymap.set("n", "<leader>ec", "<cmd>NvimTreeCollapse<CR>", { desc = "Collapse file explorer" })     -- collapse file explorer
+    keymap.set("n", "<leader>er", "<cmd>NvimTreeRefresh<CR>", { desc = "Refresh file explorer" })       -- refresh file explorer    end
+  end
 }

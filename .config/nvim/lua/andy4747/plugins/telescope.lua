@@ -38,6 +38,7 @@ return {
             "%.cache/",
             "__pycache__/",
             "%.class",
+            ".marks.md",
           },
         },
         pickers = {

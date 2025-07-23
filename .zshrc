@@ -27,8 +27,9 @@ case "$OSTYPE" in
     export GOPATH=$HOME/go
     export PATH=$PATH:$GOPATH/bin
     export PATH="$HOME/zig/zig-linux-x86_64-0.14.0:$PATH"
-    export DXSCRIPTS="/home/$USER/dotfiles/scripts/dmenu/"
+    export DXSCRIPTS="/home/$USER/dotfiles/scripts/"
     export PATH="$PATH:$DXSCRIPTS"
+    export PATH="$PATH:$HOME/.config/emacs/bin"
     ;;
 esac
 
@@ -48,6 +49,11 @@ alias grep='grep --color=auto'
 alias cdwm='cd ~/suckless/dwm/'
 alias vdwm='vim ~/suckless/dwm/'
 alias mdwm='cd ~/suckless/dwm/; sudo make clean install; cd -'
+alias de='EMACSLOADPATH=$HOME/.config/emacs/bin emacs --init-directory=~/.config/doom/'
+alias p="sudo pacman"
+alias xc="xclip -selection clipboard"
+#default browser
+export BROWSER=zen-browser
 
 
 # Neovim cleanup function
@@ -140,10 +146,6 @@ rmvol(){
     echo "operation failed"
   fi
 }
-
-export dx="/home/angeldx/angel-dx"
-export ba="/home/angeldx/angel-dx/byte-arena"
-alias xc="xclip -selection clipboard"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
