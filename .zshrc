@@ -39,22 +39,27 @@ export VISUAL='nvim'
 export PAGER='less'
 
 # Aliases and functions (common)
-alias nrd="npm run dev"
-alias nrb="npm run build"
 alias dcu="docker compose up -d"
 alias dcd="docker compose down"
-alias ls='lsd'
-alias vim='nvim'
 alias grep='grep --color=auto'
 alias cdwm='cd ~/suckless/dwm/'
 alias vdwm='vim ~/suckless/dwm/'
 alias mdwm='cd ~/suckless/dwm/; sudo make clean install; cd -'
 alias de='EMACSLOADPATH=$HOME/.config/emacs/bin emacs --init-directory=~/.config/doom/'
-alias p="sudo pacman"
 alias xc="xclip -selection clipboard"
+alias ta="tmux attach -t"
 #default browser
 export BROWSER=zen-browser
 
+wifi-doc() {
+    doc="
+List    => nmcli device wifi list
+Rescan  => nmcli device wifi rescan
+Connect => nmcli device wifi connect access_point_name password your_password
+Show    => nmcli connection show
+"
+echo "$doc"
+}
 
 # Neovim cleanup function
 nvim-clean() {
@@ -146,6 +151,8 @@ rmvol(){
     echo "operation failed"
   fi
 }
+
+
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
